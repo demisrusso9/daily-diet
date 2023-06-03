@@ -3,4 +3,4 @@ import { createAccount } from './routes/account'
 
 export const app = fastify()
 
-app.register(createAccount)
+app.register(createAccount, { prefix: 'users' })
