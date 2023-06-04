@@ -1,6 +1,8 @@
 import fastify from 'fastify'
-import { createAccount } from './routes/account'
+import { accountRoutes } from './routes/account'
+import { mealsRoutes } from './routes/meals'
 
 export const app = fastify()
 
-app.register(createAccount, { prefix: 'users' })
+app.register(accountRoutes, { prefix: 'users' })
+app.register(mealsRoutes, { prefix: 'meals' })

@@ -3,19 +3,9 @@ import { FastifyInstance } from 'fastify'
 import { knex } from '../database'
 import { generateJwtAndRefreshToken } from '../auth'
 import bcrypt from 'bcrypt'
-
 import { z } from 'zod'
-import { checkIfTokenExists } from '../middlewares/check-if-token-exists'
 
-interface User {
-  id: string
-  email: string
-  password: string
-  created_at: string
-  refresh_token: string
-}
-
-export async function createAccount(app: FastifyInstance) {
+export async function accountRoutes(app: FastifyInstance) {
   app.post('/create', async (req, reply) => {
     const schema = z.object({
       email: z.string().email({ message: 'Invalid email address' }),
@@ -75,14 +65,5 @@ export async function createAccount(app: FastifyInstance) {
     } else {
       return reply.status(401).send({ error: true, message: 'Wrong password' })
     }
-  })
-
-  app.get('/test', { preHandler: checkIfTokenExists }, (req, reply) => {
-    const array = [
-      { id: 1, name: 'Name 1' },
-      { id: 2, name: 'Name 2' }
-    ]
-
-    return reply.status(200).send(array)
   })
 }
