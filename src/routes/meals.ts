@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { checkIfTokenExists } from '../middlewares/check-if-token-exists'
 import { knex } from '../database'
 import { z } from 'zod'
-import { INTERNAL_SERVER_ERROR, OK } from '../utils/statusCode'
+import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from '../utils/statusCode'
 
 export async function mealsRoutes(app: FastifyInstance) {
   app.post('/create', { preHandler: checkIfTokenExists }, async (req, reply) => {
@@ -54,7 +54,41 @@ export async function mealsRoutes(app: FastifyInstance) {
         })
         .first()
 
+      if (!meal) {
+        return reply.code(NOT_FOUND).send({ message: 'Meal not found' })
+      }
+
       return reply.code(OK).send({ result: meal })
+    } catch (error) {
+      console.error(error)
+
+      return reply
+        .code(INTERNAL_SERVER_ERROR)
+        .send({ message: 'An error occurred while processing the request.' })
+    }
+  })
+
+  app.delete('/:id', { preHandler: checkIfTokenExists }, async (req, reply) => {
+    const schema = z.object({
+      id: z.string()
+    })
+
+    const { id } = schema.parse(req.params)
+
+    try {
+      const meal = await knex('meals')
+        .delete()
+        .where({
+          user_id: req.user?.id,
+          id: id
+        })
+        .returning('*')
+
+      if (!meal) {
+        return reply.code(NOT_FOUND).send({ message: 'Meal not found' })
+      }
+
+      return reply.code(OK).send({ message: 'Meal deleted' })
     } catch (error) {
       console.error(error)
 
