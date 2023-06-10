@@ -3,28 +3,47 @@ import { checkIfTokenExists } from '../middlewares/check-if-token-exists'
 import { knex } from '../database'
 import { z } from 'zod'
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from '../utils/statusCode'
+import { isValid, parse } from 'date-fns'
 
 export async function mealsRoutes(app: FastifyInstance) {
-  app.post('/create', { preHandler: checkIfTokenExists }, async (req, reply) => {
-    const schema = z.object({
-      name: z.string(),
-      description: z.string(),
-      healthy_diet: z.boolean()
-    })
+  app.addHook('preHandler', checkIfTokenExists)
 
-    const { name, description, healthy_diet } = schema.parse(req.body)
+  app.post('/create', async (req, reply) => {
+    try {
+      const schema = z.object({
+        name: z.string(),
+        description: z.string(),
+        healthy_diet: z.boolean(),
+        created_at: z
+          .string()
+          .refine(value => {
+            const date = parse(value, 'dd/MM/yy HH:mm', new Date())
+            return isValid(date)
+          }, 'Expected a valid date string')
+          .transform(value => parse(value, 'dd/MM/yy HH:mm', new Date()))
+      })
 
-    await knex('meals').insert({
-      name,
-      description,
-      healthy_diet,
-      user_id: req.user?.id
-    })
+      const { name, description, healthy_diet, created_at } = schema.parse(req.body)
 
-    return reply.code(OK).send({ message: 'Meal created' })
+      await knex('meals').insert({
+        name,
+        description,
+        healthy_diet,
+        created_at,
+        user_id: req.user?.id
+      })
+
+      return reply.code(OK).send({ message: 'Meal created' })
+    } catch (error) {
+      console.error(error)
+
+      return reply
+        .code(INTERNAL_SERVER_ERROR)
+        .send({ message: 'An error occurred while processing the request.' })
+    }
   })
 
-  app.get('/', { preHandler: checkIfTokenExists }, async (req, reply) => {
+  app.get('/', async (req, reply) => {
     try {
       const meals = await knex('meals').select().where({ user_id: req.user?.id })
 
@@ -38,14 +57,14 @@ export async function mealsRoutes(app: FastifyInstance) {
     }
   })
 
-  app.get('/:id', { preHandler: checkIfTokenExists }, async (req, reply) => {
-    const schema = z.object({
-      id: z.string()
-    })
-
-    const { id } = schema.parse(req.params)
-
+  app.get('/:id', async (req, reply) => {
     try {
+      const schema = z.object({
+        id: z.string()
+      })
+
+      const { id } = schema.parse(req.params)
+
       const meal = await knex('meals')
         .select()
         .where({
@@ -68,14 +87,60 @@ export async function mealsRoutes(app: FastifyInstance) {
     }
   })
 
-  app.delete('/:id', { preHandler: checkIfTokenExists }, async (req, reply) => {
-    const schema = z.object({
-      id: z.string()
-    })
-
-    const { id } = schema.parse(req.params)
-
+  app.patch('/:id', async (req, reply) => {
     try {
+      const schemaParams = z.object({
+        id: z.string()
+      })
+
+      const schema = z.object({
+        name: z.string(),
+        description: z.string(),
+        healthy_diet: z.boolean(),
+        created_at: z
+          .string()
+          .refine(value => {
+            const date = parse(value, 'dd/MM/yy HH:mm', new Date())
+            return isValid(date)
+          }, 'Expected a valid date string')
+          .transform(value => parse(value, 'dd/MM/yy HH:mm', new Date()))
+      })
+
+      const { name, description, healthy_diet, created_at } = schema.parse(req.body)
+      const { id } = schemaParams.parse(req.params)
+
+      const meal = await knex('meals')
+        .update({
+          name,
+          description,
+          healthy_diet,
+          created_at
+        })
+        .where({ user_id: req.user?.id, id })
+        .returning('*')
+
+      if (!meal.length) {
+        return reply.code(NOT_FOUND).send({ message: 'Meal not found' })
+      }
+
+      return reply.code(OK).send({ message: 'Meal updated' })
+    } catch (error) {
+      console.error(error)
+
+      return reply
+        .code(INTERNAL_SERVER_ERROR)
+        .send({ message: 'An error occurred while processing the request.' })
+    }
+  })
+
+  app.delete('/:id', async (req, reply) => {
+    try {
+      const schema = z.object({
+        id: z.string()
+      })
+
+      const { id } = schema.parse(req.params)
+
       const meal = await knex('meals')
         .delete()
         .where({
@@ -98,7 +163,7 @@ export async function mealsRoutes(app: FastifyInstance) {
     }
   })
 
-  app.get('/summary', { preHandler: checkIfTokenExists }, async (req, reply) => {
+  app.get('/summary', async (req, reply) => {
     try {
       const meals = await knex('meals').select().where({ user_id: req.user?.id })
 
