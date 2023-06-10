@@ -38,6 +38,32 @@ export async function mealsRoutes(app: FastifyInstance) {
     }
   })
 
+  app.get('/:id', { preHandler: checkIfTokenExists }, async (req, reply) => {
+    const schema = z.object({
+      id: z.string()
+    })
+
+    const { id } = schema.parse(req.params)
+
+    try {
+      const meal = await knex('meals')
+        .select()
+        .where({
+          user_id: req.user?.id,
+          id: id
+        })
+        .first()
+
+      return reply.code(OK).send({ result: meal })
+    } catch (error) {
+      console.error(error)
+
+      return reply
+        .code(INTERNAL_SERVER_ERROR)
+        .send({ message: 'An error occurred while processing the request.' })
+    }
+  })
+
   app.get('/summary', { preHandler: checkIfTokenExists }, async (req, reply) => {
     try {
       const meals = await knex('meals').select().where({ user_id: req.user?.id })
