@@ -1,5 +1,12 @@
 # Desafio back-end
 
+Tecnologias utilizadas:
+
+- Fastify
+- Bcrypt
+- Jwt
+- Knex
+
 #### Regras da aplicação
 
 - [x] Deve ser possível criar um usuário
