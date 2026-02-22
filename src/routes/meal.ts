@@ -7,6 +7,53 @@ import { prisma } from '../services/prisma'
 export async function mealRoutes(app: FastifyInstance) {
 	app.addHook('preHandler', checkIfUserIsAuthenticated)
 
+	app.get('/list', async (request, reply) => {
+		try {
+			const meals = await prisma.meal.findMany({
+				where: {
+					userId: request.user.sub
+				}
+			})
+
+			return reply.status(200).send({ meals })
+		} catch (error) {
+			return reply.status(500).send({
+				error: 'Error fetching meals'
+			})
+		}
+	})
+
+	app.get('/list/:id', async (request, reply) => {
+		const paramsSchema = z.object({
+			id: z.string()
+		})
+
+		const params = paramsSchema.safeParse(request.params)
+
+		if (!params.success) {
+			return reply.status(400).send({
+				error: z.treeifyError(params.error)
+			})
+		}
+
+		const { id } = params.data
+
+		try {
+			const meal = await prisma.meal.findFirst({
+				where: {
+					id,
+					userId: request.user.sub
+				}
+			})
+
+			return reply.status(200).send({ meal })
+		} catch (error) {
+			return reply.status(500).send({
+				error: 'Error fetching meal'
+			})
+		}
+	})
+
 	app.post('/create', async (request, reply) => {
 		const userSchema = z.object({
 			name: z.string(),
