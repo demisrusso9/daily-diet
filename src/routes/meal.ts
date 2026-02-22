@@ -91,4 +91,52 @@ export async function mealRoutes(app: FastifyInstance) {
 			})
 		}
 	})
+
+	app.delete('/delete/:id', async (request, reply) => {
+		const paramsSchema = z.object({
+			id: z.string()
+		})
+
+		const params = paramsSchema.safeParse(request.params)
+
+		if (!params.success) {
+			return reply.status(400).send({
+				error: z.treeifyError(params.error)
+			})
+		}
+
+		const { id } = params.data
+
+		try {
+			await prisma.meal.delete({
+				where: {
+					id,
+					userId: request.user.sub
+				}
+			})
+
+			return reply.status(200).send()
+		} catch (error) {
+			return reply.status(500).send({
+				error: 'Error deleting meal'
+			})
+		}
+	})
+
+	app.delete('/delete-all', async (request, reply) => {
+		try {
+			await prisma.meal.deleteMany({
+				where: {
+					userId: request.user.sub
+				}
+			})
+			return reply
+				.status(200)
+				.send({ message: 'All meals deleted successfully' })
+		} catch (error) {
+			return reply.status(500).send({
+				error: 'Error deleting all meals'
+			})
+		}
+	})
 }
