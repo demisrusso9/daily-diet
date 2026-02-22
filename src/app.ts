@@ -1,8 +1,11 @@
+import jwt from '@fastify/jwt'
 import fastify from 'fastify'
 import { env } from './envs/env'
 import { userRoutes } from './routes/user'
 
 const app = fastify()
+
+app.register(jwt, { secret: env.JWT_SECRET })
 
 app.register(userRoutes, { prefix: 'users' })
 
