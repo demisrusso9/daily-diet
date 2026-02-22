@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt'
 import { FastifyInstance } from 'fastify'
 import z from 'zod'
 import { prisma } from '../services/prisma'
@@ -31,11 +32,14 @@ export async function userRoutes(app: FastifyInstance) {
 		}
 
 		try {
+			const saltOrRounds = 10
+			const hashedPassword = await bcrypt.hash(body.data.password, saltOrRounds)
+
 			await prisma.user.create({
 				data: {
 					name: body.data.name,
 					email: body.data.email,
-					password: body.data.password
+					password: hashedPassword
 				}
 			})
 
