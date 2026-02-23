@@ -54,6 +54,45 @@ export async function mealRoutes(app: FastifyInstance) {
 		}
 	})
 
+	app.get('/summary', async (request, reply) => {
+		try {
+			const meals = await prisma.meal.findMany({
+				where: {
+					userId: request.user.sub
+				}
+			})
+
+			const totalMeals = meals.length
+			const mealsOnDiet = meals.filter((meal) => meal.isOnDiet).length
+			const mealsOffDiet = totalMeals - mealsOnDiet
+
+			const { maxSequence } = meals.reduce(
+				(acc, meal) => {
+					if (meal.isOnDiet) {
+						acc.currentSequence++
+					} else {
+						acc.currentSequence = 0
+					}
+
+					acc.maxSequence = Math.max(acc.maxSequence, acc.currentSequence)
+					return acc
+				},
+				{ currentSequence: 0, maxSequence: 0 }
+			)
+
+			return reply.status(200).send({
+				totalMeals,
+				mealsOnDiet,
+				mealsOffDiet,
+				bestSequenceOnDiet: maxSequence
+			})
+		} catch (error) {
+			return reply.status(500).send({
+				error: 'Error fetching meals'
+			})
+		}
+	})
+
 	app.post('/create', async (request, reply) => {
 		const userSchema = z.object({
 			name: z.string(),
