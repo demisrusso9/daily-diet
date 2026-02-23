@@ -1,17 +1,12 @@
 import bcrypt from 'bcrypt'
 import { UserRepository } from '../repositories/contracts/users.repository'
+import { RegisterDTO } from '../schemas/register.schema'
 import { UserAlreadyExistsError } from './errors/user-already-exists.error'
-
-interface RegisterServiceParams {
-	name: string
-	email: string
-	password: string
-}
 
 export class RegisterService {
 	constructor(private userRepository: UserRepository) {}
 
-	async execute({ name, email, password }: RegisterServiceParams) {
+	async execute({ name, email, password }: RegisterDTO) {
 		const checkIfUserExists = await this.userRepository.findByEmail(email)
 
 		if (checkIfUserExists) {
