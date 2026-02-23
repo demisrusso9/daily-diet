@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify'
 import { randomUUID } from 'node:crypto'
 import z from 'zod'
+import { prisma } from '../lib/prisma'
 import { checkIfUserIsAuthenticated } from '../middlewares/check-if-user-is-authenticated'
-import { prisma } from '../services/prisma'
 
 export async function mealRoutes(app: FastifyInstance) {
 	app.addHook('preHandler', checkIfUserIsAuthenticated)
