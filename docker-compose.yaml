@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  daily-diet:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=demisrusso
+      - POSTGRESQL_PASSWORD=123456
+      - POSTGRESQL_DATABASE=daily-diet
