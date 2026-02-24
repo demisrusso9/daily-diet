@@ -1,10 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import z from 'zod'
 import { TokenService } from '../../token/services/generate-token.service'
-import { PrismaUsersRepository } from '../repositories/prisma-users.repository'
+import { makeLoginService } from '../factories/make-login-service'
 import { loginSchema } from '../schemas/login.schema'
 import { InvalidCredentialsError } from '../services/errors/invalid-credentials.error'
-import { LoginService } from '../services/login.service'
 
 export async function loginController(
 	request: FastifyRequest,
@@ -21,8 +20,7 @@ export async function loginController(
 	const { email, password } = loginData.data
 
 	try {
-		const userRepository = new PrismaUsersRepository()
-		const loginService = new LoginService(userRepository)
+		const loginService = makeLoginService()
 
 		const user = await loginService.execute({ email, password })
 
