@@ -1,12 +1,12 @@
 import {
-	MealCreateInput,
+	MealCreateManyInput,
 	MealUpdateInput
 } from '../../../../prisma/generated/models'
 import { prisma } from '../../../lib/prisma'
 import { MealsRepository } from './contracts/meals.repository'
 
 export class PrismaMealRepository implements MealsRepository {
-	async create(data: MealCreateInput) {
+	async create(data: MealCreateManyInput) {
 		await prisma.meal.create({ data })
 	}
 

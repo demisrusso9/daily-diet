@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify'
-import { randomUUID } from 'node:crypto'
 import z from 'zod'
 import { prisma } from '../lib/prisma'
 import { checkIfUserIsAuthenticated } from '../middlewares/check-if-user-is-authenticated'
+import { createController } from '../modules/meal/controllers/create.controller'
 import { getMealByIdController } from '../modules/meal/controllers/get-meal-by-id.controller'
 import { listMealsController } from '../modules/meal/controllers/list-meals.controller'
 import { summaryController } from '../modules/meal/controllers/summary.controller'
@@ -13,44 +13,7 @@ export async function mealRoutes(app: FastifyInstance) {
 	app.get('/list', listMealsController)
 	app.get('/list/:id', getMealByIdController)
 	app.get('/summary', summaryController)
-
-	app.post('/create', async (request, reply) => {
-		const userSchema = z.object({
-			name: z.string(),
-			description: z.string(),
-			date: z.string(),
-			isOnDiet: z.boolean()
-		})
-
-		const body = userSchema.safeParse(request.body)
-
-		if (!body.success) {
-			return reply.status(400).send({
-				error: z.treeifyError(body.error)
-			})
-		}
-
-		const { name, description, date, isOnDiet } = body.data
-
-		try {
-			await prisma.meal.create({
-				data: {
-					id: randomUUID(),
-					name,
-					description,
-					date,
-					isOnDiet,
-					userId: request.user.sub
-				}
-			})
-
-			return reply.status(201).send({ message: 'Meal created successfully' })
-		} catch (error) {
-			return reply.status(500).send({
-				error: 'Error creating meal'
-			})
-		}
-	})
+	app.post('/create', createController)
 
 	app.patch('/update/:id', async (request, reply) => {
 		const userSchema = z.object({
