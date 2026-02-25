@@ -5,51 +5,14 @@ import { prisma } from '../lib/prisma'
 import { checkIfUserIsAuthenticated } from '../middlewares/check-if-user-is-authenticated'
 import { getMealByIdController } from '../modules/meal/controllers/get-meal-by-id.controller'
 import { listMealsController } from '../modules/meal/controllers/list-meals.controller'
+import { summaryController } from '../modules/meal/controllers/summary.controller'
 
 export async function mealRoutes(app: FastifyInstance) {
 	app.addHook('preHandler', checkIfUserIsAuthenticated)
 
 	app.get('/list', listMealsController)
 	app.get('/list/:id', getMealByIdController)
-
-	app.get('/summary', async (request, reply) => {
-		try {
-			const meals = await prisma.meal.findMany({
-				where: {
-					userId: request.user.sub
-				}
-			})
-
-			const totalMeals = meals.length
-			const mealsOnDiet = meals.filter((meal) => meal.isOnDiet).length
-			const mealsOffDiet = totalMeals - mealsOnDiet
-
-			const { maxSequence } = meals.reduce(
-				(acc, meal) => {
-					if (meal.isOnDiet) {
-						acc.currentSequence++
-					} else {
-						acc.currentSequence = 0
-					}
-
-					acc.maxSequence = Math.max(acc.maxSequence, acc.currentSequence)
-					return acc
-				},
-				{ currentSequence: 0, maxSequence: 0 }
-			)
-
-			return reply.status(200).send({
-				totalMeals,
-				mealsOnDiet,
-				mealsOffDiet,
-				bestSequenceOnDiet: maxSequence
-			})
-		} catch (error) {
-			return reply.status(500).send({
-				error: 'Error fetching meals'
-			})
-		}
-	})
+	app.get('/summary', summaryController)
 
 	app.post('/create', async (request, reply) => {
 		const userSchema = z.object({
