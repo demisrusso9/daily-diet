@@ -1,5 +1,4 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import z from 'zod'
 
 import { makeRegisterService } from '../factories/make-register-service'
 import { registerSchema } from '../schemas/register.schema'
@@ -9,17 +8,9 @@ export async function registerController(
 	request: FastifyRequest,
 	reply: FastifyReply
 ) {
-	const body = registerSchema.safeParse(request.body)
-
-	if (!body.success) {
-		return reply.status(400).send({
-			error: z.treeifyError(body.error)
-		})
-	}
+	const { name, email, password } = registerSchema.parse(request.body)
 
 	try {
-		const { name, email, password } = body.data
-
 		const registerService = makeRegisterService()
 
 		await registerService.execute({

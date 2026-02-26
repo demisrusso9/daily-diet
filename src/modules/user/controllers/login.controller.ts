@@ -1,5 +1,4 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import z from 'zod'
 import { TokenService } from '../../token/services/generate-token.service'
 import { makeLoginService } from '../factories/make-login-service'
 import { loginSchema } from '../schemas/login.schema'
@@ -9,15 +8,7 @@ export async function loginController(
 	request: FastifyRequest,
 	reply: FastifyReply
 ) {
-	const loginData = loginSchema.safeParse(request.body)
-
-	if (!loginData.success) {
-		return reply.status(400).send({
-			error: z.treeifyError(loginData.error)
-		})
-	}
-
-	const { email, password } = loginData.data
+	const { email, password } = loginSchema.parse(request.body)
 
 	try {
 		const loginService = makeLoginService()

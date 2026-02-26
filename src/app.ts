@@ -16,7 +16,7 @@ app.setErrorHandler((error, _, reply) => {
 	if (error instanceof ZodError) {
 		return reply.status(400).send({
 			message: 'Validation Error',
-			issues: z.treeifyError(error)
+			issues: z.prettifyError(error)
 		})
 	}
 
