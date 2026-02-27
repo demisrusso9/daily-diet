@@ -13,8 +13,8 @@
       "@prisma/*": [
         "./prisma/*"
       ],
-      "@test/*": [
-        "./test/*"
+      "@tests/*": [
+        "./tests/*"
       ]
     }
   }

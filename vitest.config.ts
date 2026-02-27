@@ -9,7 +9,7 @@ export default defineConfig({
 		alias: {
 			'@': resolve(__dirname, './src'),
 			'@prisma': resolve(__dirname, './prisma'),
-			'@test': resolve(__dirname, './test')
+			'@tests': resolve(__dirname, './tests')
 		}
 	}
 })
