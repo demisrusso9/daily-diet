@@ -1,5 +1,5 @@
 import { TokenService } from '@/modules/token/services/generate-token.service'
-import { makeLoginService } from '@/modules/user/factories/make-login-service'
+import { makeLoginService } from '@/modules/user/factories/make-login.service'
 import { loginSchema } from '@/modules/user/schemas/login.schema'
 import { InvalidCredentialsError } from '@/modules/user/services/errors/invalid-credentials.error'
 import { FastifyReply, FastifyRequest } from 'fastify'

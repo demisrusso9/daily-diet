@@ -1,7 +1,7 @@
 import { makeListMealsService } from '@/modules/meal/factories/make-list.service'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-export async function listMealsController(
+export async function listController(
 	request: FastifyRequest,
 	reply: FastifyReply
 ) {

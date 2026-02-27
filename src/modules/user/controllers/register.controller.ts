@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makeRegisterService } from '@/modules/user/factories/make-register-service'
+import { makeRegisterService } from '@/modules/user/factories/make-register.service'
 import { registerSchema } from '@/modules/user/schemas/register.schema'
 import { UserAlreadyExistsError } from '@/modules/user/services/errors/user-already-exists.error'
 
