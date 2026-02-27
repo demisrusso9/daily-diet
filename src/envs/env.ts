@@ -8,11 +8,11 @@ const envsSchema = z.object({
 	JWT_SECRET: z.string()
 })
 
-const parsedEnvs = envsSchema.safeParse(process.env)
+const { data, error } = envsSchema.safeParse(process.env)
 
-if (!parsedEnvs.success) {
-	console.error('Invalid environment variables:', parsedEnvs.error.format())
+if (error) {
+	console.error('Invalid environment variables:', z.prettifyError(error))
 	process.exit(1)
 }
 
-export const env = parsedEnvs.data
+export const env = data
