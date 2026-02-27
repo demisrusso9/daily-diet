@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { UserRepository } from '@/modules/user/repositories/contracts/users.repository'
-import { UserCreateInput } from '@prisma/generated/models'
+import { RegisterDTO } from '@/modules/user/schemas/register.schema'
 
 export class PrismaUsersRepository implements UserRepository {
 	async findByEmail(email: string) {
@@ -11,7 +11,7 @@ export class PrismaUsersRepository implements UserRepository {
 		return user
 	}
 
-	async create(data: UserCreateInput) {
+	async create(data: RegisterDTO) {
 		const user = await prisma.user.create({
 			data
 		})

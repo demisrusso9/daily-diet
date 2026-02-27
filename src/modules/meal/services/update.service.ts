@@ -1,9 +1,9 @@
 import { MealsRepository } from '@/modules/meal/repositories/contracts/meals.repository'
+import { UpdateMealDTO } from '@/modules/meal/schema/update.schema'
 import { MealNotFoundError } from '@/modules/meal/services/errors/meal-not-found.error'
-import { MealUpdateInput } from '@prisma/generated/models'
 
 interface UpdateServiceParams {
-	data: MealUpdateInput
+	data: UpdateMealDTO
 	id: string
 	userId: string
 }

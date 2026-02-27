@@ -3,7 +3,7 @@ import z from 'zod'
 export const updateMealSchema = z.object({
 	name: z.string().optional(),
 	description: z.string().optional(),
-	date: z.string().optional(),
+	date: z.coerce.date().optional(),
 	isOnDiet: z.boolean().optional()
 })
 

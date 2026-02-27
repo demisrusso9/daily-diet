@@ -1,10 +1,10 @@
 import { MealsRepository } from '@/modules/meal/repositories/contracts/meals.repository'
-import { MealCreateManyInput } from '@prisma/generated/models'
+import { CreateMealDTO } from '@/modules/meal/schema/create.schema'
 
 export class CreateService {
 	constructor(private mealsRepository: MealsRepository) {}
 
-	async execute(data: MealCreateManyInput) {
+	async execute(data: CreateMealDTO & { userId: string }) {
 		await this.mealsRepository.create(data)
 	}
 }

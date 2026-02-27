@@ -1,13 +1,14 @@
 import { prisma } from '@/lib/prisma'
 import { MealsRepository } from '@/modules/meal/repositories/contracts/meals.repository'
-import { MealCreateManyInput, MealUpdateInput } from '@prisma/generated/models'
+import { CreateMealDTO } from '@/modules/meal/schema/create.schema'
+import { UpdateMealDTO } from '@/modules/meal/schema/update.schema'
 
 export class PrismaMealRepository implements MealsRepository {
-	async create(data: MealCreateManyInput) {
+	async create(data: CreateMealDTO & { userId: string }) {
 		await prisma.meal.create({ data })
 	}
 
-	async update(data: MealUpdateInput, id: string, userId: string) {
+	async update(data: UpdateMealDTO, id: string, userId: string) {
 		await prisma.meal.update({
 			data,
 			where: { id, userId }

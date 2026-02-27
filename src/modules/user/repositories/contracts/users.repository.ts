@@ -1,7 +1,7 @@
-import { User } from '@prisma/generated/browser'
-import { UserCreateInput } from '@prisma/generated/models'
+import { RegisterDTO } from '@/modules/user/schemas/register.schema'
+import { UserDTO } from '@/modules/user/schemas/user.schema'
 
 export interface UserRepository {
-	create(data: UserCreateInput): Promise<User>
-	findByEmail(email: string): Promise<User | null>
+	create(data: RegisterDTO): Promise<UserDTO>
+	findByEmail(email: string): Promise<UserDTO | null>
 }
