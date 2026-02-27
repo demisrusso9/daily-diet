@@ -1,9 +1,9 @@
+import { env } from '@/envs/env'
+import { mealRoutes } from '@/routes/meal'
+import { userRoutes } from '@/routes/user'
 import jwt from '@fastify/jwt'
 import fastify from 'fastify'
 import z, { ZodError } from 'zod'
-import { env } from './envs/env'
-import { mealRoutes } from './routes/meal'
-import { userRoutes } from './routes/user'
 
 const app = fastify()
 

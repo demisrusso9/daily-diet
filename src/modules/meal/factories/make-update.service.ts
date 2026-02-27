@@ -1,5 +1,5 @@
-import { PrismaMealRepository } from '../repositories/prisma-meal.repository'
-import { UpdateService } from '../services/update.service'
+import { PrismaMealRepository } from '@/modules/meal/repositories/prisma-meal.repository'
+import { UpdateService } from '@/modules/meal/services/update.service'
 
 export function makeUpdateService() {
 	const mealsRepository = new PrismaMealRepository()

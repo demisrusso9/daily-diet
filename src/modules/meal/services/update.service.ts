@@ -1,6 +1,6 @@
-import { MealUpdateInput } from '../../../../prisma/generated/models'
-import { MealsRepository } from '../repositories/contracts/meals.repository'
-import { MealNotFoundError } from './errors/meal-not-found.error'
+import { MealsRepository } from '@/modules/meal/repositories/contracts/meals.repository'
+import { MealNotFoundError } from '@/modules/meal/services/errors/meal-not-found.error'
+import { MealUpdateInput } from '@prisma/generated/models'
 
 interface UpdateServiceParams {
 	data: MealUpdateInput

@@ -1,8 +1,8 @@
+import { makeUpdateService } from '@/modules/meal/factories/make-update.service'
+import { paramsSchema } from '@/modules/meal/schema/list-id-params.schema'
+import { updateMealSchema } from '@/modules/meal/schema/update.schema'
+import { MealNotFoundError } from '@/modules/meal/services/errors/meal-not-found.error'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeUpdateService } from '../factories/make-update.service'
-import { paramsSchema } from '../schema/list-id-params.schema'
-import { updateMealSchema } from '../schema/update.schema'
-import { MealNotFoundError } from '../services/errors/meal-not-found.error'
 
 export async function updateController(
 	request: FastifyRequest,

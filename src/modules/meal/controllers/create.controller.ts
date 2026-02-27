@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeCreate } from '../factories/make-create.service'
-import { createMealSchema } from '../schema/create.schema'
+import { makeCreate } from '@/modules/meal/factories/make-create.service'
+import { createMealSchema } from '@/modules/meal/schema/create.schema'
 
 export async function createController(
 	request: FastifyRequest,

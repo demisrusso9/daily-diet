@@ -1,5 +1,5 @@
-import { PrismaMealRepository } from '../repositories/prisma-meal.repository'
-import { DeleteService } from '../services/delete.service'
+import { PrismaMealRepository } from '@/modules/meal/repositories/prisma-meal.repository'
+import { DeleteService } from '@/modules/meal/services/delete.service'
 
 export function makeDeleteService() {
 	const mealsRepository = new PrismaMealRepository()

@@ -1,6 +1,6 @@
+import { makeGetMealByIdService } from '@/modules/meal/factories/make-get-meal-by-id.service'
+import { paramsSchema } from '@/modules/meal/schema/list-id-params.schema'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeGetMealByIdService } from '../factories/make-get-meal-by-id.service'
-import { paramsSchema } from '../schema/list-id-params.schema'
 
 export async function getMealByIdController(
 	request: FastifyRequest,

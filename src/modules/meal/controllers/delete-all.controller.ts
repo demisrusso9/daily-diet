@@ -1,5 +1,5 @@
+import { makeDeleteAllService } from '@/modules/meal/factories/make-delete-all.service'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeDeleteAllService } from '../factories/make-delete-all.service'
 
 export async function deleteAllController(
 	request: FastifyRequest,

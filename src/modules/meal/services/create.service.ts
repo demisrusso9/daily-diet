@@ -1,5 +1,5 @@
-import { MealCreateManyInput } from '../../../../prisma/generated/models'
-import { MealsRepository } from '../repositories/contracts/meals.repository'
+import { MealsRepository } from '@/modules/meal/repositories/contracts/meals.repository'
+import { MealCreateManyInput } from '@prisma/generated/models'
 
 export class CreateService {
 	constructor(private mealsRepository: MealsRepository) {}

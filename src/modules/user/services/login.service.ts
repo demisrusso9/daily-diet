@@ -1,7 +1,7 @@
+import { UserRepository } from '@/modules/user/repositories/contracts/users.repository'
+import { LoginDTO } from '@/modules/user/schemas/login.schema'
+import { InvalidCredentialsError } from '@/modules/user/services/errors/invalid-credentials.error'
 import bcrypt from 'bcrypt'
-import { UserRepository } from '../repositories/contracts/users.repository'
-import { LoginDTO } from '../schemas/login.schema'
-import { InvalidCredentialsError } from './errors/invalid-credentials.error'
 
 export class LoginService {
 	constructor(private userRepository: UserRepository) {}

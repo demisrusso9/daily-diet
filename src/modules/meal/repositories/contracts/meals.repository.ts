@@ -1,8 +1,5 @@
-import { Meal } from '../../../../../prisma/generated/browser'
-import {
-	MealCreateManyInput,
-	MealUpdateInput
-} from '../../../../../prisma/generated/models'
+import { Meal } from '@prisma/generated/browser'
+import { MealCreateManyInput, MealUpdateInput } from '@prisma/generated/models'
 
 export interface MealsRepository {
 	create(data: MealCreateManyInput): Promise<void>

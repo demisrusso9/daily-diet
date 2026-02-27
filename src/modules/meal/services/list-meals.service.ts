@@ -1,4 +1,4 @@
-import { MealsRepository } from '../repositories/contracts/meals.repository'
+import { MealsRepository } from '@/modules/meal/repositories/contracts/meals.repository'
 
 interface ListMealsServiceParams {
 	userId: string

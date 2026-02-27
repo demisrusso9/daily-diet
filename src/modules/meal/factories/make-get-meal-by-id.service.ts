@@ -1,5 +1,5 @@
-import { PrismaMealRepository } from '../repositories/prisma-meal.repository'
-import { GetMealByIdService } from '../services/get-meal-by-id.service'
+import { PrismaMealRepository } from '@/modules/meal/repositories/prisma-meal.repository'
+import { GetMealByIdService } from '@/modules/meal/services/get-meal-by-id.service'
 
 export function makeGetMealByIdService() {
 	const mealsRepository = new PrismaMealRepository()

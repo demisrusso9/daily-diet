@@ -1,5 +1,5 @@
+import { makeSummaryService } from '@/modules/meal/factories/make-summary.service'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeSummaryService } from '../factories/make-summary.service'
 
 export async function summaryController(
 	request: FastifyRequest,

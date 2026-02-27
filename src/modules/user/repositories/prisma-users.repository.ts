@@ -1,6 +1,6 @@
-import { UserCreateInput } from '../../../../prisma/generated/models'
-import { prisma } from '../../../lib/prisma'
-import { UserRepository } from './contracts/users.repository'
+import { prisma } from '@/lib/prisma'
+import { UserRepository } from '@/modules/user/repositories/contracts/users.repository'
+import { UserCreateInput } from '@prisma/generated/models'
 
 export class PrismaUsersRepository implements UserRepository {
 	async findByEmail(email: string) {
