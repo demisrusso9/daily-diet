@@ -6,6 +6,7 @@
     "dev": "tsx watch src/app.ts",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "prepare": "husky"
   },
   "keywords": [],
@@ -27,6 +28,7 @@
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^25.3.0",
     "@types/pg": "^8.16.0",
+    "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^10.0.0",
     "husky": "^9.1.7",
     "prisma": "^7.4.1",
