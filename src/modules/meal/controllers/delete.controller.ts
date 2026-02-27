@@ -1,5 +1,5 @@
 import { makeDeleteService } from '@/modules/meal/factories/make-delete.service'
-import { paramsSchema } from '@/modules/meal/schema/list-id-params.schema'
+import { paramsSchema } from '@/modules/meal/schemas/list-id-params.schema'
 import { MealNotFoundError } from '@/modules/meal/services/errors/meal-not-found.error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 

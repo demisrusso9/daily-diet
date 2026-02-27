@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { MealsRepository } from '@/modules/meal/repositories/contracts/meals.repository'
-import { CreateMealDTO } from '@/modules/meal/schema/create.schema'
-import { UpdateMealDTO } from '@/modules/meal/schema/update.schema'
+import { CreateMealDTO } from '@/modules/meal/schemas/create.schema'
+import { UpdateMealDTO } from '@/modules/meal/schemas/update.schema'
 
 export class PrismaMealRepository implements MealsRepository {
 	async create(data: CreateMealDTO & { userId: string }) {

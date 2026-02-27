@@ -1,6 +1,6 @@
-import { CreateMealDTO } from '@/modules/meal/schema/create.schema'
-import { MealDTO } from '@/modules/meal/schema/meal.schema'
-import { UpdateMealDTO } from '@/modules/meal/schema/update.schema'
+import { CreateMealDTO } from '@/modules/meal/schemas/create.schema'
+import { MealDTO } from '@/modules/meal/schemas/meal.schema'
+import { UpdateMealDTO } from '@/modules/meal/schemas/update.schema'
 
 export interface MealsRepository {
 	create(data: CreateMealDTO & { userId: string }): Promise<void>

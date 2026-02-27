@@ -1,5 +1,5 @@
 import { MealsRepository } from '@/modules/meal/repositories/contracts/meals.repository'
-import { UpdateMealDTO } from '@/modules/meal/schema/update.schema'
+import { UpdateMealDTO } from '@/modules/meal/schemas/update.schema'
 import { MealNotFoundError } from '@/modules/meal/services/errors/meal-not-found.error'
 
 interface UpdateServiceParams {
