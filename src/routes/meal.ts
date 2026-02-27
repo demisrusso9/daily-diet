@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify'
-import { prisma } from '../lib/prisma'
 import { checkIfUserIsAuthenticated } from '../middlewares/check-if-user-is-authenticated'
 import { createController } from '../modules/meal/controllers/create.controller'
+import { deleteAllController } from '../modules/meal/controllers/delete-all.controller'
 import { deleteController } from '../modules/meal/controllers/delete.controller'
 import { getMealByIdController } from '../modules/meal/controllers/get-meal-by-id.controller'
 import { listMealsController } from '../modules/meal/controllers/list-meals.controller'
@@ -17,21 +17,5 @@ export async function mealRoutes(app: FastifyInstance) {
 	app.post('/create', createController)
 	app.patch('/update/:id', updateController)
 	app.delete('/delete/:id', deleteController)
-
-	app.delete('/delete-all', async (request, reply) => {
-		try {
-			await prisma.meal.deleteMany({
-				where: {
-					userId: request.user.sub
-				}
-			})
-			return reply
-				.status(200)
-				.send({ message: 'All meals deleted successfully' })
-		} catch (error) {
-			return reply.status(500).send({
-				error: 'Error deleting all meals'
-			})
-		}
-	})
+	app.delete('/delete-all', deleteAllController)
 }
