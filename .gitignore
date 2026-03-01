@@ -3,5 +3,5 @@ node_modules
 src/prisma/generated
 dist
 .env
-.github
+.github/agents
 coverage
