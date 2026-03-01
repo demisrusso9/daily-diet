@@ -11,11 +11,16 @@
         "./src/*"
       ],
       "@prisma/*": [
-        "./prisma/*"
+        "./src/prisma/*"
       ],
       "@tests/*": [
         "./tests/*"
       ]
-    }
-  }
+    },
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src"
+  ]
 }

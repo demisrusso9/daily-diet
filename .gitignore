@@ -1,6 +1,7 @@
 node_modules
 
-prisma/generated
+src/prisma/generated
+dist
 .env
 .github
 coverage
