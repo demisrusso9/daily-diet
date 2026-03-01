@@ -69,6 +69,6 @@ app.setErrorHandler((error, _, reply) => {
 	})
 })
 
-app.listen({ port: env.PORT }, () => {
+app.listen({ port: env.PORT, host: '0.0.0.0' }, () => {
 	console.log(`Server listening at ${env.PORT}`)
 })
