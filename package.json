@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/app.js",
   "scripts": {
-    "build": "prisma generate && tsc",
+    "build": "prisma generate && tsc && tsc-alias",
     "start": "node dist/app.js",
     "dev": "tsx watch src/app.ts",
     "test": "vitest run",
@@ -37,6 +37,7 @@
     "eslint": "^10.0.0",
     "husky": "^9.1.7",
     "prisma": "^7.4.1",
+    "tsc-alias": "^1.8.16",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
