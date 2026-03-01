@@ -1,4 +1,5 @@
 import { env } from '@/envs/env'
+import { prisma } from '@/lib/prisma'
 import { mealRoutes } from '@/routes/meal'
 import { userRoutes } from '@/routes/user'
 import jwt from '@fastify/jwt'
@@ -48,6 +49,16 @@ app.register(swaggerUi, {
 })
 
 app.register(jwt, { secret: env.JWT_SECRET })
+
+app.get('/healthcheck', async (_, reply) => {
+	await prisma.$queryRaw`SELECT 1`
+
+	return reply.status(200).send({
+		status: 'ok',
+		database: 'ok',
+		uptime: process.uptime()
+	})
+})
 
 app.register(userRoutes, { prefix: 'users' })
 app.register(mealRoutes, { prefix: 'meals' })
