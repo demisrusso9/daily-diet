@@ -23,12 +23,36 @@ export async function mealRoutes(app: FastifyInstance) {
 
 	router.addHook('preHandler', checkIfUserIsAuthenticated)
 
-	router.get('/list', { schema: listMealsDocs }, listController)
-	router.get('/list/:id', { schema: getMealByIdDocs }, getByIdController)
-	router.get('/summary', { schema: summaryDocs }, summaryController)
-	router.post('/create', { schema: createMealDocs }, createController)
-	router.patch('/update/:id', { schema: updateMealDocs }, updateController)
-	router.delete('/delete/:id', { schema: deleteMealDocs }, deleteController)
+	router.get(
+		'/list',
+		{ schema: listMealsDocs, attachValidation: true },
+		listController
+	)
+	router.get(
+		'/list/:id',
+		{ schema: getMealByIdDocs, attachValidation: true },
+		getByIdController
+	)
+	router.get(
+		'/summary',
+		{ schema: summaryDocs, attachValidation: true },
+		summaryController
+	)
+	router.post(
+		'/create',
+		{ schema: createMealDocs, attachValidation: true },
+		createController
+	)
+	router.patch(
+		'/update/:id',
+		{ schema: updateMealDocs, attachValidation: true },
+		updateController
+	)
+	router.delete(
+		'/delete/:id',
+		{ schema: deleteMealDocs, attachValidation: true },
+		deleteController
+	)
 	router.delete(
 		'/delete-all',
 		{ schema: deleteAllMealsDocs },

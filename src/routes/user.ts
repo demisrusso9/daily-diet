@@ -7,6 +7,14 @@ import { ZodTypeProvider } from 'fastify-type-provider-zod'
 export async function userRoutes(app: FastifyInstance) {
 	const router = app.withTypeProvider<ZodTypeProvider>()
 
-	router.post('/create', { schema: registerDocs }, registerController)
-	router.post('/login', { schema: loginDocs }, loginController)
+	router.post(
+		'/create',
+		{ schema: registerDocs, attachValidation: true },
+		registerController
+	)
+	router.post(
+		'/login',
+		{ schema: loginDocs, attachValidation: true },
+		loginController
+	)
 }

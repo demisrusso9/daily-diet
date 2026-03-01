@@ -4,7 +4,7 @@ import { userRoutes } from '@/routes/user'
 import jwt from '@fastify/jwt'
 import swagger from '@fastify/swagger'
 import swaggerUi from '@fastify/swagger-ui'
-import fastify from 'fastify'
+import fastify, { FastifyError } from 'fastify'
 import {
 	jsonSchemaTransform,
 	serializerCompiler,
@@ -52,7 +52,7 @@ app.register(jwt, { secret: env.JWT_SECRET })
 app.register(userRoutes, { prefix: 'users' })
 app.register(mealRoutes, { prefix: 'meals' })
 
-app.setErrorHandler((error, _, reply) => {
+app.setErrorHandler((error: FastifyError, _, reply) => {
 	if (error instanceof ZodError) {
 		return reply.status(400).send({
 			message: 'Validation Error',
@@ -60,13 +60,12 @@ app.setErrorHandler((error, _, reply) => {
 		})
 	}
 
-	console.error(error)
-
 	return reply.status(500).send({
 		message: 'Internal Server Error'
 	})
 })
 
-app.listen({ port: env.PORT, host: '0.0.0.0' }, () => {
-	console.log(`Server listening at ${env.PORT}`)
+app.listen({ port: env.PORT, host: env.HOST }, () => {
+	console.log(`Server listening at ${env.HOST}:${env.PORT}`)
+	console.log(`Swagger docs available at http://${env.HOST}:${env.PORT}/docs`)
 })
