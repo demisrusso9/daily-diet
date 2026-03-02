@@ -1,16 +1,16 @@
 import { InvalidCredentialsError } from '@/modules/user/services/errors/invalid-credentials.error'
-import { LoginService } from '@/modules/user/services/login.service'
+import { SessionService } from '@/modules/user/services/session.service'
 import { InMemoryUsersRepository } from '@tests/repositories/in-memory-users.repository'
 import bcrypt from 'bcrypt'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 let usersRepository: InMemoryUsersRepository
-let sut: LoginService
+let sut: SessionService
 
-describe('Login Service', () => {
+describe('Session Service', () => {
 	beforeEach(async () => {
 		usersRepository = new InMemoryUsersRepository()
-		sut = new LoginService(usersRepository)
+		sut = new SessionService(usersRepository)
 
 		usersRepository.users.push({
 			id: '1',

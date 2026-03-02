@@ -1,4 +1,4 @@
-import { loginSchema } from '@/modules/user/schemas/login.schema'
+import { sessionSchema } from '@/modules/user/schemas/login.schema'
 import { registerSchema } from '@/modules/user/schemas/register.schema'
 import z from 'zod'
 
@@ -12,12 +12,25 @@ export const registerDocs = {
 	}
 }
 
-export const loginDocs = {
+export const sessionDocs = {
 	tags: ['Users'],
 	summary: 'Autenticar usuário e obter token JWT',
-	body: loginSchema,
+	body: sessionSchema,
 	response: {
 		200: z.object({ token: z.string() }).describe('Token JWT gerado'),
 		401: z.object({ error: z.string() }).describe('Credenciais inválidas')
+	}
+}
+
+export const refreshDocs = {
+	tags: ['Users'],
+	summary: 'Atualizar token JWT usando refresh token',
+	response: {
+		200: z
+			.object({ token: z.string(), refreshToken: z.string() })
+			.describe('Token JWT atualizado'),
+		401: z
+			.object({ error: z.string() })
+			.describe('Refresh token inválido ou expirado')
 	}
 }

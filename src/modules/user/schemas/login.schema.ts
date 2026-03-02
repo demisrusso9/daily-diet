@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
-export const loginSchema = z.object({
+export const sessionSchema = z.object({
 	email: z.email(),
 	password: z.string().min(6)
 })
 
-export type LoginDTO = z.infer<typeof loginSchema>
+export type SessionDTO = z.infer<typeof sessionSchema>

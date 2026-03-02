@@ -2,6 +2,7 @@ import { env } from '@/envs/env'
 import { prisma } from '@/lib/prisma'
 import { mealRoutes } from '@/routes/meal'
 import { userRoutes } from '@/routes/user'
+import cookie from '@fastify/cookie'
 import jwt from '@fastify/jwt'
 import swagger from '@fastify/swagger'
 import swaggerUi from '@fastify/swagger-ui'
@@ -50,7 +51,12 @@ app.register(swaggerUi, {
 	}
 })
 
-app.register(jwt, { secret: env.JWT_SECRET })
+app.register(cookie)
+app.register(jwt, {
+	secret: env.JWT_SECRET,
+	sign: { expiresIn: '15m' },
+	cookie: { cookieName: 'refreshToken', signed: false }
+})
 
 app.register(userRoutes, { prefix: 'users' })
 app.register(mealRoutes, { prefix: 'meals' })

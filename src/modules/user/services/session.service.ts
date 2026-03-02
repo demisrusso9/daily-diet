@@ -1,12 +1,12 @@
 import { UserRepository } from '@/modules/user/repositories/contracts/users.repository'
-import { LoginDTO } from '@/modules/user/schemas/login.schema'
+import { SessionDTO } from '@/modules/user/schemas/login.schema'
 import { InvalidCredentialsError } from '@/modules/user/services/errors/invalid-credentials.error'
 import bcrypt from 'bcrypt'
 
-export class LoginService {
+export class SessionService {
 	constructor(private userRepository: UserRepository) {}
 
-	async execute({ email, password }: LoginDTO) {
+	async execute({ email, password }: SessionDTO) {
 		const user = await this.userRepository.findByEmail(email)
 
 		if (!user) {

@@ -1,6 +1,11 @@
-import { loginController } from '@/modules/user/controllers/login.controller'
+import { refreshController } from '@/modules/user/controllers/refresh.controller'
 import { registerController } from '@/modules/user/controllers/register.controller'
-import { loginDocs, registerDocs } from '@/modules/user/docs/user.docs'
+import { sessionController } from '@/modules/user/controllers/session.controller'
+import {
+	refreshDocs,
+	registerDocs,
+	sessionDocs
+} from '@/modules/user/docs/user.docs'
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 
@@ -13,8 +18,13 @@ export async function userRoutes(app: FastifyInstance) {
 		registerController
 	)
 	router.post(
-		'/login',
-		{ schema: loginDocs, attachValidation: true },
-		loginController
+		'/session',
+		{ schema: sessionDocs, attachValidation: true },
+		sessionController
+	)
+	router.get(
+		'/refresh',
+		{ schema: refreshDocs, attachValidation: true },
+		refreshController
 	)
 }
