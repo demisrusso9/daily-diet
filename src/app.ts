@@ -13,7 +13,9 @@ import {
 } from 'fastify-type-provider-zod'
 import z, { ZodError } from 'zod'
 
-const app = fastify()
+const app = fastify({
+	logger: true
+})
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
@@ -50,8 +52,15 @@ app.register(swaggerUi, {
 
 app.register(jwt, { secret: env.JWT_SECRET })
 
-app.get('/healthcheck', async (_, reply) => {
+app.register(userRoutes, { prefix: 'users' })
+app.register(mealRoutes, { prefix: 'meals' })
+
+app.get('/healthcheck', async (request, reply) => {
+	const log = request.log.child({ context: 'healthcheck' })
+
 	await prisma.$queryRaw`SELECT 1`
+
+	log.info('Healthcheck endpoint accessed')
 
 	return reply.status(200).send({
 		status: 'ok',
@@ -59,9 +68,6 @@ app.get('/healthcheck', async (_, reply) => {
 		uptime: process.uptime()
 	})
 })
-
-app.register(userRoutes, { prefix: 'users' })
-app.register(mealRoutes, { prefix: 'meals' })
 
 app.setErrorHandler((error: FastifyError, _, reply) => {
 	if (error instanceof ZodError) {
@@ -77,6 +83,9 @@ app.setErrorHandler((error: FastifyError, _, reply) => {
 })
 
 app.listen({ port: env.PORT, host: env.HOST }, () => {
-	console.log(`Server listening at ${env.HOST}:${env.PORT}`)
-	console.log(`Swagger docs available at http://${env.HOST}:${env.PORT}/docs`)
+	app.log.info({ host: env.HOST, port: env.PORT }, 'Server listening')
+	app.log.info(
+		{ url: `http://${env.HOST}:${env.PORT}/docs` },
+		'Swagger docs available'
+	)
 })

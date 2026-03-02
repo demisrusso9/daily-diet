@@ -8,6 +8,7 @@ export async function registerController(
 	request: FastifyRequest,
 	reply: FastifyReply
 ) {
+	const log = request.log.child({ context: 'registerController' })
 	const { name, email, password } = registerSchema.parse(request.body)
 
 	try {
@@ -19,13 +20,18 @@ export async function registerController(
 			password
 		})
 
+		log.info({ email }, 'User registered successfully')
 		return reply.status(201).send()
 	} catch (error) {
 		if (error instanceof UserAlreadyExistsError) {
+			log.warn({ email }, 'Registration conflict: user already exists')
+
 			return reply.status(409).send({
 				error: error.message
 			})
 		}
+
+		log.error({ err: error, email }, 'Unexpected error during registration')
 
 		throw error
 	}

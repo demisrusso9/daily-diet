@@ -8,22 +8,26 @@ export async function updateController(
 	request: FastifyRequest,
 	reply: FastifyReply
 ) {
-	{
-		const { id } = paramsSchema.parse(request.params)
-		const data = updateMealSchema.parse(request.body)
-		const userId = request.user.sub
+	const log = request.log.child({ context: 'updateController' })
 
-		try {
-			const updateService = makeUpdateService()
-			await updateService.execute({ data, id, userId })
+	const { id } = paramsSchema.parse(request.params)
+	const data = updateMealSchema.parse(request.body)
+	const userId = request.user.sub
 
-			return reply.status(201).send({ message: 'Meal updated successfully' })
-		} catch (error) {
-			if (error instanceof MealNotFoundError) {
-				return reply.status(404).send({ message: error.message })
-			}
+	try {
+		const updateService = makeUpdateService()
+		await updateService.execute({ data, id, userId })
 
-			throw error
+		log.info({ id, userId }, 'Meal updated successfully')
+
+		return reply.status(201).send({ message: 'Meal updated successfully' })
+	} catch (error) {
+		if (error instanceof MealNotFoundError) {
+			log.warn({ id, userId }, 'Meal not found for update')
+			return reply.status(404).send({ message: error.message })
 		}
+
+		log.error({ err: error, id, userId }, 'Unexpected error updating meal')
+		throw error
 	}
 }
