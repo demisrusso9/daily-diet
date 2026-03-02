@@ -17,8 +17,7 @@
         "./tests/*"
       ]
     },
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "outDir": "./dist"
   },
   "include": [
     "src",

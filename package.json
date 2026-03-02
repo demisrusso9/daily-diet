@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/app.js",
   "scripts": {
-    "build": "prisma generate && tsc && tsc-alias",
+    "build": "prisma generate && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "npx prisma migrate deploy && node dist/app.js",
     "dev": "tsx watch src/app.ts",
     "test": "vitest run",
