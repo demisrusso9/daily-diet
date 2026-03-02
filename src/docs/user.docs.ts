@@ -1,5 +1,5 @@
-import { sessionSchema } from '@/modules/user/schemas/login.schema'
 import { registerSchema } from '@/modules/user/schemas/register.schema'
+import { sessionSchema } from '@/modules/user/schemas/session.schema'
 import z from 'zod'
 
 export const registerDocs = {

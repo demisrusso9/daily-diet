@@ -1,11 +1,3 @@
-import { checkIfUserIsAuthenticated } from '@/middlewares/check-if-user-is-authenticated'
-import { createController } from '@/modules/meal/controllers/create.controller'
-import { deleteAllController } from '@/modules/meal/controllers/delete-all.controller'
-import { deleteController } from '@/modules/meal/controllers/delete.controller'
-import { getByIdController } from '@/modules/meal/controllers/get-by-id.controller'
-import { listController } from '@/modules/meal/controllers/list.controller'
-import { summaryController } from '@/modules/meal/controllers/summary.controller'
-import { updateController } from '@/modules/meal/controllers/update.controller'
 import {
 	createMealDocs,
 	deleteAllMealsDocs,
@@ -14,7 +6,15 @@ import {
 	listMealsDocs,
 	summaryDocs,
 	updateMealDocs
-} from '@/modules/meal/docs/meal.docs'
+} from '@/docs/meal.docs'
+import { checkIfUserIsAuthenticated } from '@/middlewares/check-if-user-is-authenticated'
+import { createController } from '@/modules/meal/controllers/create.controller'
+import { deleteAllController } from '@/modules/meal/controllers/delete-all.controller'
+import { deleteController } from '@/modules/meal/controllers/delete.controller'
+import { getByIdController } from '@/modules/meal/controllers/get-by-id.controller'
+import { listController } from '@/modules/meal/controllers/list.controller'
+import { summaryController } from '@/modules/meal/controllers/summary.controller'
+import { updateController } from '@/modules/meal/controllers/update.controller'
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 

@@ -1,11 +1,7 @@
+import { refreshDocs, registerDocs, sessionDocs } from '@/docs/user.docs'
 import { refreshController } from '@/modules/user/controllers/refresh.controller'
 import { registerController } from '@/modules/user/controllers/register.controller'
 import { sessionController } from '@/modules/user/controllers/session.controller'
-import {
-	refreshDocs,
-	registerDocs,
-	sessionDocs
-} from '@/modules/user/docs/user.docs'
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 

@@ -1,5 +1,4 @@
 import { env } from '@/envs/env'
-import { prisma } from '@/lib/prisma'
 import { mealRoutes } from '@/routes/meal'
 import { userRoutes } from '@/routes/user'
 import cookie from '@fastify/cookie'
@@ -13,6 +12,7 @@ import {
 	validatorCompiler
 } from 'fastify-type-provider-zod'
 import z, { ZodError } from 'zod'
+import { healthCheckRoutes } from './routes/healthcheck'
 
 const app = fastify({
 	logger: true
@@ -60,20 +60,7 @@ app.register(jwt, {
 
 app.register(userRoutes, { prefix: 'users' })
 app.register(mealRoutes, { prefix: 'meals' })
-
-app.get('/healthcheck', async (request, reply) => {
-	const log = request.log.child({ context: 'healthcheck' })
-
-	await prisma.$queryRaw`SELECT 1`
-
-	log.info('Healthcheck endpoint accessed')
-
-	return reply.status(200).send({
-		status: 'ok',
-		database: 'ok',
-		uptime: process.uptime()
-	})
-})
+app.register(healthCheckRoutes)
 
 app.setErrorHandler((error: FastifyError, _, reply) => {
 	if (error instanceof ZodError) {

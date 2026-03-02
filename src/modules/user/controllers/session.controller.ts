@@ -1,6 +1,6 @@
 import { env } from '@/envs/env'
 import { makeSessionService } from '@/modules/user/factories/make-session.service'
-import { sessionSchema } from '@/modules/user/schemas/login.schema'
+import { sessionSchema } from '@/modules/user/schemas/session.schema'
 import { InvalidCredentialsError } from '@/modules/user/services/errors/invalid-credentials.error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
