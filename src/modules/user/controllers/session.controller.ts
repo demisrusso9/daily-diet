@@ -29,10 +29,10 @@ export async function sessionController(
 				path: '/',
 				httpOnly: true,
 				secure: env.NODE_ENV === 'production',
-				sameSite: true
+				sameSite: 'strict'
 			})
 			.status(200)
-			.send({ token, refreshToken })
+			.send({ token })
 	} catch (error) {
 		if (error instanceof InvalidCredentialsError) {
 			log.warn({ email }, 'Login attempt with invalid credentials')

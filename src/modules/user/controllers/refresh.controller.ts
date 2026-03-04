@@ -23,8 +23,8 @@ export async function refreshController(
 			path: '/',
 			httpOnly: true,
 			secure: env.NODE_ENV === 'production',
-			sameSite: true
+			sameSite: 'strict'
 		})
 		.status(200)
-		.send({ token, refreshToken })
+		.send({ token })
 }
