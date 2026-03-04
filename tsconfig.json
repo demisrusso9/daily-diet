@@ -10,8 +10,8 @@
       "@/*": [
         "./src/*"
       ],
-      "@prisma/*": [
-        "./src/prisma/*"
+      "@prisma/generated/*": [
+        "./src/prisma/generated/*"
       ],
       "@tests/*": [
         "./tests/*"
