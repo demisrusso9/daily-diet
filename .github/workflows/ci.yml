@@ -39,5 +39,8 @@ jobs:
       - name: Run unit tests
         run: npx vitest run --project=unit
 
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
       - name: Run e2e tests
         run: npx vitest run --project=e2e
