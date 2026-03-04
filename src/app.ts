@@ -1,4 +1,3 @@
-import { env } from '@/envs/env'
 import { mealRoutes } from '@/routes/meal'
 import { userRoutes } from '@/routes/user'
 import fastify, { FastifyError } from 'fastify'
@@ -11,7 +10,7 @@ import { jwtPlugin } from './plugins/jwt'
 import { swaggerPlugin } from './plugins/swagger'
 import { healthCheckRoutes } from './routes/healthcheck'
 
-const app = fastify({
+export const app = fastify({
 	logger: true,
 	disableRequestLogging: true
 })
@@ -37,12 +36,4 @@ app.setErrorHandler((error: FastifyError, _, reply) => {
 	return reply.status(500).send({
 		message: 'Internal Server Error'
 	})
-})
-
-app.listen({ port: env.PORT, host: env.HOST }, () => {
-	app.log.info({ host: env.HOST, port: env.PORT }, 'Server listening')
-	app.log.info(
-		{ url: `http://${env.HOST}:${env.PORT}/docs` },
-		'Swagger docs available'
-	)
 })

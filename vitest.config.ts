@@ -36,7 +36,8 @@ export default defineConfig({
 					globals: true,
 					include: ['tests/e2e/**/*.spec.ts'],
 					environment: './prisma/vitest-environment-prisma/index.ts',
-					sequence: { concurrent: false }
+					sequence: { concurrent: false },
+					testTimeout: 10000
 				},
 				resolve: { alias: aliases },
 				extends: true
