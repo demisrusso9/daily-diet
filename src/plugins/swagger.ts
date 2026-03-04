@@ -1,4 +1,3 @@
-// src/plugins/swagger.ts
 import swagger from '@fastify/swagger'
 import swaggerUi from '@fastify/swagger-ui'
 import type { FastifyInstance } from 'fastify'

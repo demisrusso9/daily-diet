@@ -35,41 +35,9 @@ Controller  →  Service  →  Repository (Contract)  →  Repository (Implement
 - **Factories** — funções de composição que instanciam Services injetando as dependências corretas (Factory Method como Composition Root)
 - **DTOs** — definidos via `z.infer<>` dos schemas Zod, reutilizados em toda a aplicação
 
-### Estrutura de módulos
-
-```
-src/modules/
-├── meal/
-│   ├── controllers/   # handlers HTTP
-│   ├── factories/     # injeção de dependências
-│   ├── repositories/
-│   │   ├── contracts/ # interfaces (independentes do ORM)
-│   │   └── prisma-meal.repository.ts
-│   ├── schemas/       # Zod schemas + DTOs
-│   └── services/      # regras de negócio
-└── user/
-    ├── controllers/
-    ├── factories/
-    ├── repositories/
-    │   ├── contracts/
-    │   └── prisma-users.repository.ts
-    ├── schemas/
-    └── services/
-```
-
 ### Testes
 
 Os testes unitários utilizam **repositórios in-memory** que implementam os mesmos contratos das implementações Prisma, permitindo testar os Services de forma completamente isolada, sem banco de dados.
-
-```
-tests/
-├── repositories/
-│   ├── in-memory-meals.repository.ts
-│   └── in-memory-users.repository.ts
-└── modules/
-    ├── meal/services/
-    └── user/services/
-```
 
 ---
 
@@ -102,9 +70,9 @@ npm run dev
 ### Testes
 
 ```bash
-npm test                 # executa uma vez
-npm run test:watch       # modo watch
-npm run test:coverage    # com relatório de cobertura
+npm test
+npm run test:watch
+npm run test:coverage
 ```
 
 ### Documentação
@@ -115,7 +83,14 @@ Com o servidor rodando, acesse:
 http://localhost:3333/docs
 ```
 
-A interface do Swagger permite explorar todos os endpoints, visualizar os schemas de request/response e executar chamadas diretamente pelo navegador. Para testar rotas protegidas, clique em **Authorize** e insira o token JWT obtido no endpoint `/users/login`.
+A interface do Swagger permite explorar todos os endpoints, visualizar os schemas de request/response e executar chamadas diretamente pelo navegador. Para testar rotas protegidas, clique em **Authorize** e insira o access token JWT obtido no endpoint `/users/session`.
+
+### Autenticação
+
+O fluxo de autenticação utiliza dois tokens:
+
+- **access token** — retornado no body do `/users/session`, expira em curto prazo, usado no header `Authorization: Bearer <token>`
+- **refresh token** — salvo em cookie `HttpOnly`, usado para renovar o access token via `GET /users/refresh` sem necessidade de novo login
 
 ---
 
@@ -124,9 +99,11 @@ A interface do Swagger permite explorar todos os endpoints, visualizar os schema
 Crie um arquivo `.env` na raiz do projeto:
 
 ```env
+NODE_ENV=development
 DATABASE_URL="postgresql://user:password@localhost:5432/daily_diet"
 JWT_SECRET="sua-chave-secreta"
 PORT=3333
+HOST=localhost
 ```
 
 ---
@@ -135,22 +112,29 @@ PORT=3333
 
 ### Usuários
 
-| Método | Rota              | Descrição                      |
-| ------ | ----------------- | ------------------------------ |
-| `POST` | `/users/register` | Cadastrar novo usuário         |
-| `POST` | `/users/login`    | Autenticar e receber token JWT |
+| Método | Rota             | Descrição                                         |
+| ------ | ---------------- | ------------------------------------------------- |
+| `POST` | `/users/create`  | Cadastrar novo usuário                            |
+| `POST` | `/users/session` | Autenticar e receber access token + refresh token |
+| `GET`  | `/users/refresh` | Renovar access token via cookie refresh token     |
 
 ### Refeições _(requer autenticação)_
 
-| Método   | Rota             | Descrição                       |
-| -------- | ---------------- | ------------------------------- |
-| `POST`   | `/meals`         | Criar refeição                  |
-| `GET`    | `/meals`         | Listar todas as refeições       |
-| `GET`    | `/meals/:id`     | Buscar refeição por ID          |
-| `PUT`    | `/meals/:id`     | Atualizar refeição              |
-| `DELETE` | `/meals/:id`     | Deletar refeição                |
-| `DELETE` | `/meals`         | Deletar todas as refeições      |
-| `GET`    | `/meals/summary` | Resumo e métricas das refeições |
+| Método   | Rota \*\*\*\*       | Descrição                       |
+| -------- | ------------------- | ------------------------------- |
+| `POST`   | `/meals/create`     | Criar refeição                  |
+| `GET`    | `/meals/list`       | Listar todas as refeições       |
+| `GET`    | `/meals/list/:id`   | Buscar refeição por ID          |
+| `PATCH`  | `/meals/update/:id` | Atualizar refeição              |
+| `DELETE` | `/meals/delete/:id` | Deletar refeição                |
+| `DELETE` | `/meals/delete-all` | Deletar todas as refeições      |
+| `GET`    | `/meals/summary`    | Resumo e métricas das refeições |
+
+### Infraestrutura
+
+| Método | Rota           | Descrição                         |
+| ------ | -------------- | --------------------------------- |
+| `GET`  | `/healthcheck` | Status da API e do banco de dados |
 
 ---
 
@@ -158,6 +142,7 @@ PORT=3333
 
 - [x] Deve ser possível criar um usuário
 - [x] Deve ser possível identificar o usuário entre as requisições
+- [x] Deve ser possível renovar o access token via refresh token (cookie HttpOnly)
 - [x] Deve ser possível registrar uma refeição feita, com as seguintes informações:
   - As refeições devem ser relacionadas a um usuário
   - Nome
