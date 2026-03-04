@@ -1,5 +1,5 @@
 import { SummaryService } from '@/modules/meal/services/summary.service'
-import { InMemoryMealsRepository } from '@tests/repositories/in-memory-meals.repository'
+import { InMemoryMealsRepository } from '@tests/unit/repositories/in-memory-meals.repository'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 let mealsRepository: InMemoryMealsRepository

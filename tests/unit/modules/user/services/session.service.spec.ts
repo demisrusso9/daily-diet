@@ -1,6 +1,6 @@
 import { InvalidCredentialsError } from '@/modules/user/services/errors/invalid-credentials.error'
 import { SessionService } from '@/modules/user/services/session.service'
-import { InMemoryUsersRepository } from '@tests/repositories/in-memory-users.repository'
+import { InMemoryUsersRepository } from '@tests/unit/repositories/in-memory-users.repository'
 import bcrypt from 'bcrypt'
 import { beforeEach, describe, expect, it } from 'vitest'
 

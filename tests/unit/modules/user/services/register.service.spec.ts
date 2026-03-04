@@ -1,6 +1,6 @@
 import { UserAlreadyExistsError } from '@/modules/user/services/errors/user-already-exists.error'
 import { RegisterService } from '@/modules/user/services/register.service'
-import { InMemoryUsersRepository } from '@tests/repositories/in-memory-users.repository'
+import { InMemoryUsersRepository } from '@tests/unit/repositories/in-memory-users.repository'
 import bcrypt from 'bcrypt'
 import { beforeEach, describe, expect, it } from 'vitest'
 

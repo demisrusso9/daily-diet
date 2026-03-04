@@ -1,6 +1,6 @@
 import { MealNotFoundError } from '@/modules/meal/services/errors/meal-not-found.error'
 import { UpdateService } from '@/modules/meal/services/update.service'
-import { InMemoryMealsRepository } from '@tests/repositories/in-memory-meals.repository'
+import { InMemoryMealsRepository } from '@tests/unit/repositories/in-memory-meals.repository'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 let mealsRepository: InMemoryMealsRepository

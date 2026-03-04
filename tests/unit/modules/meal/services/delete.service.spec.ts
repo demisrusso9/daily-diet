@@ -1,7 +1,7 @@
 import { DeleteService } from '@/modules/meal/services/delete.service'
 import { MealNotFoundError } from '@/modules/meal/services/errors/meal-not-found.error'
-import { InMemoryMealsRepository } from '@tests/repositories/in-memory-meals.repository'
-import { InMemoryUsersRepository } from '@tests/repositories/in-memory-users.repository'
+import { InMemoryMealsRepository } from '@tests/unit/repositories/in-memory-meals.repository'
+import { InMemoryUsersRepository } from '@tests/unit/repositories/in-memory-users.repository'
 import bcrypt from 'bcrypt'
 import { beforeEach, describe, expect, it } from 'vitest'
 

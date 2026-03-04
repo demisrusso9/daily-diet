@@ -25,7 +25,7 @@ export default defineConfig({
 				test: {
 					name: 'unit',
 					globals: true,
-					include: ['tests/modules/**/*.spec.ts']
+					include: ['tests/unit/modules/**/*.spec.ts']
 				},
 				resolve: { alias: aliases },
 				extends: true
