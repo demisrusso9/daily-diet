@@ -26,9 +26,7 @@ export const refreshDocs = {
 	tags: ['Users'],
 	summary: 'Atualizar token JWT usando refresh token',
 	response: {
-		200: z
-			.object({ token: z.string(), refreshToken: z.string() })
-			.describe('Token JWT atualizado'),
+		200: z.object({ token: z.string() }).describe('Token JWT atualizado'),
 		401: z
 			.object({ error: z.string() })
 			.describe('Refresh token inválido ou expirado')
