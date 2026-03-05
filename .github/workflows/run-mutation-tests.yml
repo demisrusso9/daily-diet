@@ -1,0 +1,30 @@
+name: Run Mutation Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  run-mutation-tests:
+    name: Run Mutation Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - run: npm ci
+
+      - uses: actions/cache@v4
+        with:
+          path: reports/stryker-incremental.json
+          key: stryker-${{ hashFiles('src/modules/**/services/*.ts', 'tests/unit/modules/**/*.spec.ts') }}
+          restore-keys: stryker-
+
+      - run: npm run test:mutation
