@@ -21,6 +21,16 @@ describe('Delete All Service', () => {
 			email: 'john@example.com',
 			password: bcrypt.hashSync('123456', 10)
 		})
+
+		mealsRepository.meals.push({
+			id: 'meal-1',
+			name: 'Salad',
+			description: 'A healthy salad',
+			date: new Date('2023-01-01'),
+			updatedAt: new Date('2023-01-01'),
+			isOnDiet: true,
+			userId: 'user-1'
+		})
 	})
 
 	it('should delete all meals for a user', async () => {

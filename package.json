@@ -9,6 +9,7 @@
     "test": "vitest run --project unit",
     "test:watch": "vitest --project unit",
     "test:coverage": "vitest run --project unit --coverage",
+    "test:mutation": "stryker run",
     "test:e2e": "prisma generate && vitest run --project e2e",
     "test:e2e:verbose": "vitest run --reporter=verbose --project=e2e",
     "test:ui": "vitest --ui",
@@ -34,6 +35,8 @@
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
+    "@stryker-mutator/core": "^9.6.0",
+    "@stryker-mutator/vitest-runner": "^9.6.0",
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^25.3.0",
     "@types/pg": "^8.16.0",
