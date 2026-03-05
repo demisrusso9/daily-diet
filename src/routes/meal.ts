@@ -43,7 +43,7 @@ export async function mealRoutes(app: FastifyInstance) {
 		{ schema: createMealDocs, attachValidation: true },
 		createController
 	)
-	router.patch(
+	router.put(
 		'/update/:id',
 		{ schema: updateMealDocs, attachValidation: true },
 		updateController
